@@ -20,12 +20,52 @@ var playerConfig = {
   "playback": {
     "muted": true,
     "autoplay": false
+  },
+  logs: {
+    level: 'debug'
+  },
+  network: {
+    preprocessHttpRequest: (type, req) => {
+      if (type === 'drm/license/widevine'){
+        console.log('WIDEVINE')
+        console.log(req)
+        return req
+      }
+    }
   }
 }
 var container = document.getElementById('my-player');
 var player = new bitmovin.player.Player(container, playerConfig);
 
 //<!-- STEP 4 - Configure and load a Source for the player -->
+// var source = {
+//   "dash":"https://vxoalottdevopus.cdn.avp.teluslabs.net/232008200008/vxfmt=dp/manifest.mpd?device_profile=dashvmxcpix",
+//   "drm":{
+//     "widevine":{
+//         "LA_URL":"https://multidrm.core.verimatrixcloud.net/widevine",
+//         "headers":{
+//           "Authorization":'eyJraWQiOiI5NTM5ZGFhNi1hMjE0LTRhMjEtYWJiOS1iNGQwZmJlMTFmMTYiLCJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJhdWQiOiJ1cm46dmVyaW1hdHJpeDptdWx0aWRybSIsInN1YiI6IjIzMjAwODIwMDAwOCIsInZlciI6MSwic3Vic2NyaWJlciI6NTMsInNlY3VyaXR5X3BvbGljeSI6eyI2MTM2NjZmZC04MDIyLTNkNzQtOTZhMy1hZWJlYjUyMTA0MzUiOnsicGxheXJlYWR5Ijp7Im1pbmltdW1fY29tcHJlc3NlZF9kaWdpdGFsX3ZpZGVvIjo1MDAsIm1pbmltdW1fdW5jb21wcmVzc2VkX2RpZ2l0YWxfdmlkZW8iOjMwMCwibWluaW11bV9jb21wcmVzc2VkX2RpZ2l0YWxfYXVkaW8iOjMwMCwicmVxdWlyZV9oZGNwMSI6dHJ1ZSwibWluaW11bV91bmNvbXByZXNzZW…mRlZmF1bHRfc2VjdXJpdHlfcG9saWN5IjoiNjEzNjY2ZmQtODAyMi0zZDc0LTk2YTMtYWViZWI1MjEwNDM1IiwianRpIjoiZTA3MjM5NDMtNjg3Ny0zNWRiLTkyMjktNWE0ZThmMzhhNDdiIiwicG9saWN5Ijp7InBsYXlyZWFkeSI6eyJiZWdpbl90aW1lIjoxNjk5OTA0NDYwLCJwZXJzaXN0ZW50IjpmYWxzZX0sImZhaXJwbGF5Ijp7InBlcnNpc3RlbmNlIjpmYWxzZSwibGVhc2UiOmZhbHNlLCJyZW50YWwiOmZhbHNlfSwid2lkZXZpbmUiOnsibGljZW5zZV9kdXJhdGlvbl9zZWNvbmRzIjowLCJjYW5fcGxheSI6dHJ1ZSwiY2FuX3BlcnNpc3QiOmZhbHNlfX19.WvkDrBr7c-P9NMRZA2Wt_GHoIelGjrVoANVy2KEb_QYkuO2Ks-4Lb35Mbo2K7kNfnnf1w3iBH0IDsLF2_PZWSQ',
+//           "Content-Type":"application/json"
+//         },
+//     }
+//   }
+// }
+
+
+// var source = {
+//   dash: 'https://cdn.bitmovin.com/content/assets/art-of-motion_drm/mpds/11331.mpd',
+//   hls: 'https://cdn.bitmovin.com/content/assets/art-of-motion_drm/m3u8s/11331.m3u8',
+//   smooth: 'https://test.playready.microsoft.com/smoothstreaming/SSWSS720H264/SuperSpeedway_720.ism/manifest',
+//   drm: {
+//     widevine: {
+//       LA_URL: 'https://cwip-shaka-proxy.appspot.com/no_auth'
+//     },
+//     playready: {
+//       LA_URL: 'https://test.playready.microsoft.com/service/rightsmanager.asmx?PlayRight=1&ContentKey=EAtsIJQPd5pFiRUrV9Layw=='
+//     }
+//   }
+// };
+
 var source = {
   "dash": "https://vxoalottdevopus.cdn.avp.teluslabs.net/232008200008/vxfmt=dp/manifest.mpd?device_profile=dashvmxcpix",
   "drm": {
@@ -41,7 +81,6 @@ var source = {
   }
 }
 
-
 player.load(source).then(function() {
     console.log('Successfully loaded Source Config!');
   }).catch(function(reason) {
@@ -52,3 +91,4 @@ player.load(source).then(function() {
 </script>
 </body>
 </html>
+
